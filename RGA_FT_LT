@@ -1,0 +1,19 @@
+#### FT > LT data for acquisition
+
+library(RGA)
+list_profiles()
+
+ga_date <- get_mcf("ga:XXXXXXX", start.date = "2018-06-01",
+                   end.date = "2018-12-31", metrics = "mcf:totalConversionValue",
+                   dimensions = "mcf:transactionId,mcf:sourceMediumPath, mcf:campaignPath, mcf:timeLagInDaysHistogram",
+                   filters = "mcf:totalConversionValue>0",
+                   fetch.by = "day")
+
+ga_date2 <- get_mcf("ga:XXXXXXX", start.date = "2018-01-01",
+                   end.date = "2018-05-31", metrics = "mcf:totalConversionValue",
+                   dimensions = "mcf:transactionId,mcf:sourceMediumPath, mcf:campaignPath, mcf:timeLagInDaysHistogram",
+                   filters = "mcf:totalConversionValue>0",
+                   fetch.by = "day")
+
+names(ga_date)[1] <- 'orig_order_num'
+ga_first_ord <- merge(ga_date, first_ord_date, by = 'orig_order_num')
